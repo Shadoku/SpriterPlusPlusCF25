@@ -70,8 +70,8 @@ namespace SpriterEngine
 		justFinished = false;
 		if (currentAnimation)
 		{
-			if (isPlaying)
-			{
+			//if (isPlaying)
+			//{
 				timeElapsed *= playbackSpeedRatio;
 				real newTime = getCurrentTime() + timeElapsed;
 				
@@ -120,7 +120,7 @@ namespace SpriterEngine
 				{
 					currentAnimation->findAndProcessKeys(newTime, timeElapsed >= 0, &zOrder);
 				}
-			}
+			//}
 		}
 		else
 		{
