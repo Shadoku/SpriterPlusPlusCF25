@@ -26,7 +26,12 @@
             [
                 11,
                 "Change Entity by number"
+            ],
+            [
+                20,
+                "Change Entity by name"
             ]
+
         ],
         [
             "Animation",
@@ -57,6 +62,18 @@
             [
                 5,
                 "Set speed ratio"
+            ],
+            [
+                21,
+                "Change key frame"
+            ],
+            [
+                22,
+                "Jump to next key frame"
+            ],
+            [
+                23,
+                "Jump to previous key frame"
             ]
         ],
         [
@@ -156,6 +173,13 @@
     ],
     "ExpressionMenu": [
         "Separator",
+        [
+            "Entity",
+            [
+                15,
+                "Current entity name"
+            ]
+        ],
         [
             "Scale / Angle",
             [
@@ -436,7 +460,32 @@
                     "File Name"
                 ]
             ]
+        },
+        {
+            "Title": "Change entity to %0",
+            "Parameters": [
+                [
+                    "Text",
+                    "Entity Name"
+                ]
+            ]
+        },
+        {
+            "Title": "Change key frame to %0",
+            "Parameters": [
+                [
+                    "Integer",
+                    "Key frame number"
+                ]
+            ]
+        },
+        {
+            "Title": "Jump to next key frame"
+        },
+        {
+            "Title": "Jump to previous key frame"
         }
+
     ],
     "Conditions": [
         {
@@ -634,6 +683,10 @@
                 ]
             ],
             "Returns": "Float"
+        },
+        {
+            "Title": "CurrentEntityName(",
+            "Returns": "Text"
         }
     ]
 }

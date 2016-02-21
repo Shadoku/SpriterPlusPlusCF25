@@ -47,8 +47,9 @@ void Extension::ChangeAnimationByName(TCHAR* name)
 		{
 			scmlObj->setCurrentAnimation(s);
 			scmlObj->startResumePlayback();
-			currentAnimationName = s;
-			printf("%d: set current anim %s\n", currentSystemTime, currentAnimationName.c_str());
+			#ifdef _DEBUG
+				printf("%d: set current anim %s\n", currentSystemTime, s.c_str());
+			#endif
 		}
 		else
 		{
@@ -79,8 +80,9 @@ void Extension::ChangeAnimationByNameWithBlending(TCHAR* name, int blendingTime)
 		{
 			scmlObj->setCurrentAnimation(s, blendingTime);
 			scmlObj->startResumePlayback();
-			currentAnimationName = s;
+			#ifdef _DEBUG
 			printf("%d: set current blend anim %s\n", currentSystemTime, s.c_str());
+			#endif
 		}
 		else
 		{
@@ -458,11 +460,87 @@ void Extension::LoadScmlFile(TCHAR* filename)
 	scmlModel = new SpriterEngine::SpriterModel("dummy.scml", new SpriterEngine::Cf25FileFactory(rdPtr, this),
 		new SpriterEngine::Cf25ObjectFactory(rdPtr, this));
 	scmlObj = scmlModel->getNewEntityInstance(0);//assume first entity at start
-	currentAnimationName = getFirstAnimationName();
 	doc.Clear();
 	SpriteSource.clear();
 	SoundBank.clear();
 	BoxLink.clear();
 	SoundEvent.clear();
 	TriggerEvent.clear();
+}
+
+/*!
+*  \brief ChangeEntityByName
+*
+*  Change the entity
+*
+*  \param name : entity name to set
+*/
+void Extension::ChangeEntityByName(TCHAR* name)
+{
+	if (IsScmlObjectValid())
+	{
+		wstring ws = wstring(name);
+		string s(ws.begin(), ws.end());
+		#ifdef _DEBUG
+			printf("%d: set entity to %s\n", currentSystemTime, s.c_str());
+		#endif
+		scmlObj->setCurrentEntity(s);
+	}
+	else
+	{
+		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[ScmlObjectInvalid]);
+	}
+}
+
+/*!
+*  \brief ChangeKeyFrame
+*
+*  Change the entity
+*
+*  \param keyNum : keyframe number
+*/
+void Extension::ChangeKeyFrame(int keyNum)
+{
+	if (IsScmlObjectValid())
+	{
+		scmlObj->setCurrentTimeToKeyAtIndex(keyNum);
+	}
+	else
+	{
+		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[ScmlObjectInvalid]);
+	}
+}
+
+/*!
+*  \brief JumpToNextKeyFrame
+*
+*  Jump to next KeyFrame in current animation
+*/
+void Extension::JumpToNextKeyFrame()
+{
+	if (IsScmlObjectValid())
+	{
+		scmlObj->setCurrentTimeToNextKeyFrame();
+	}
+	else
+	{
+		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[ScmlObjectInvalid]);
+	}
+}
+
+/*!
+*  \brief JumpToPreviousKeyFrame
+*
+*  Jump to previous KeyFrame in current animation
+*/
+void Extension::JumpToPreviousKeyFrame()
+{
+	if (IsScmlObjectValid())
+	{
+		scmlObj->setCurrentTimeToPreviousKeyFrame();
+	}
+	else
+	{
+		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[ScmlObjectInvalid]);
+	}
 }

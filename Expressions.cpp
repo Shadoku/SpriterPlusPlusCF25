@@ -10,10 +10,17 @@ TCHAR * Extension::LastError()
 
 TCHAR * Extension::CurrentAnimationName()
 {
-	TCHAR name[256];
-	CA2T resStr(currentAnimationName.c_str());
-	_tcscpy(name, resStr);
-	return name;
+	if (IsScmlObjectValid())
+	{
+		TCHAR name[256];
+		CA2T res(scmlObj->currentAnimationName().c_str());
+		_snwprintf_s(name, _countof(name), 256, res);
+		return name;
+	}
+	else
+	{
+		return _T("");
+	}
 }
 
 int Extension::CurrentTime()
@@ -102,8 +109,10 @@ TCHAR* Extension::GetStringVariable(TCHAR* variableName)
 	string sVar(wsVar.begin(), wsVar.end());
 	if (scmlObj->getVariable(sVar))
 	{
+		TCHAR var[256];
 		CA2T res(scmlObj->getVariable(sVar)->getStringValue().c_str());
-		return res;
+		_snwprintf_s(var, _countof(var), 256, res);
+		return var;
 	}
 	else
 	{
@@ -119,8 +128,10 @@ TCHAR* Extension::GetObjectStringVariable(TCHAR* objectName, TCHAR* variableName
 	string sVar(wsVar.begin(), wsVar.end());
 	if (scmlObj->getVariable(sObj, sVar))
 	{
+		TCHAR objVar[256];
 		CA2T res(scmlObj->getVariable(sObj, sVar)->getStringValue().c_str());
-		return res;
+		_snwprintf_s(objVar, _countof(objVar), 256, res);
+		return objVar;
 	}
 	else
 	{
@@ -185,4 +196,19 @@ float Extension::GetPointAngle(TCHAR* pointName)
 		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[PointUnknown]);
 	}
 	return res;
+}
+
+TCHAR * Extension::CurrentEntityName()
+{
+	if (IsScmlObjectValid())
+	{
+		TCHAR name[256];
+		CA2T res(scmlObj->currentEntityName().c_str());
+		_snwprintf_s(name, _countof(name), 256, res);
+		return name;
+	}
+	else
+	{
+		return _T("");
+	}
 }

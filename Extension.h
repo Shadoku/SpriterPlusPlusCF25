@@ -47,8 +47,6 @@ public:
 	float speedRatio;
 	RECT displayRect;
 
-	string currentAnimationName; //TODO: replace by a direct access to spriter engine
-
 	/*  Add your actions, conditions and expressions as real class member
         functions here. The arguments (and return type for expressions) must
         match EXACTLY what you defined in the JSON.
@@ -82,6 +80,10 @@ public:
 	void UnboundBoxFromObject(TCHAR* boxName);
 	void SetDebug(int showBones, int showBoxes, int showPoints);
 	void LoadScmlFile(TCHAR* filename);
+	void ChangeEntityByName(TCHAR* name);
+	void ChangeKeyFrame(int keyNum);
+	void JumpToNextKeyFrame();
+	void JumpToPreviousKeyFrame();
 
     /// Conditions
 	bool IsAnimationPlayingByName(TCHAR* name);
@@ -108,6 +110,7 @@ public:
 	int GetPointPosX(TCHAR* pointName);
 	int GetPointPosY(TCHAR* pointName);
 	float GetPointAngle(TCHAR* pointName);
+	TCHAR * CurrentEntityName();
 
     /* These are called if there's no function linked to an ID */
 

@@ -7,7 +7,7 @@ bool Extension::IsAnimationPlayingByName(TCHAR* name)
 	{
 		wstring ws = wstring(name);
 		string s(ws.begin(), ws.end());
-		if (s == currentAnimationName)
+		if (s == scmlObj->currentAnimationName())
 		{
 			return true;
 		}
@@ -25,9 +25,11 @@ bool Extension::HasCurrentAnimationFinished()
 {
 	if (IsScmlObjectValid())
 	{
-		if (!scmlObj->isAnimationPlaying())
+		if (scmlObj->animationJustFinished())
 		{
-			printf("%d: end of animation %s\n",currentSystemTime, currentAnimationName.c_str());
+			#ifdef _DEBUG
+				printf("%d: end of animation %s\n",currentSystemTime, scmlObj->currentAnimationName().c_str());
+			#endif
 			return true;
 		}
 		else

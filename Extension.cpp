@@ -43,6 +43,10 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkAction(17, SetDebug);
 	LinkAction(18, LoadOrderedSpritesPerDirection);
 	LinkAction(19, LoadScmlFile);
+	LinkAction(20, ChangeEntityByName);
+	LinkAction(21, ChangeKeyFrame);
+	LinkAction(22, JumpToNextKeyFrame);
+	LinkAction(23, JumpToPreviousKeyFrame);
     
 	LinkCondition(0, IsAnimationPlayingByName);
 	LinkCondition(1, HasCurrentAnimationFinished);
@@ -67,6 +71,7 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkExpression(12, GetPointPosX);
 	LinkExpression(13, GetPointPosY);
 	LinkExpression(14, GetPointAngle);
+	LinkExpression(15, CurrentEntityName);
 	
     /*
         This is where you'd do anything you'd do in CreateRunObject in the original SDK
@@ -84,22 +89,6 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	speedRatio = 1.0f;
 	displayRect = { 0, 0, 0, 0 };
 	scmlObj = scmlModel->getNewEntityInstance(0);//assume first entity at start
-	currentAnimationName = getFirstAnimationName();
-}
-
-string Extension::getFirstAnimationName()
-{
-	tinyxml2::XMLDocument doc;
-	if (doc.LoadFileFromBuffer(scmlFileString.c_str()) == tinyxml2::XML_SUCCESS)
-	{
-		tinyxml2::XMLElement* firstAnim = doc.FirstChildElement("spriter_data")->FirstChildElement("entity")->FirstChildElement("animation");
-		string name = firstAnim->Attribute("name");
-		return name;
-	}
-	else
-	{
-		return "N/A";
-	}
 }
 
 Extension::~Extension()
