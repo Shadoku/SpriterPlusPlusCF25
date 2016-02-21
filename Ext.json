@@ -131,6 +131,13 @@
                 "Load Scml File"
             ]
         ],
+        [
+            "Error",
+            [
+                24,
+                "Clear last error"
+            ]
+        ],
         "Separator"
     ],
     "ConditionMenu": [
@@ -484,6 +491,9 @@
         },
         {
             "Title": "Jump to previous key frame"
+        },
+        {
+            "Title": "Clear last error"
         }
 
     ],

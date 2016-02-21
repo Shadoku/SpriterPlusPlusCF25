@@ -20,15 +20,17 @@ enum ErrorN
 	ActiveUnknown,
 	ObjectUnknown,
 	ScmlObjectInvalid,
+	ScmlFileInvalid
 };
 
-static TCHAR* ErrorS[6] = {
+static TCHAR* ErrorS[7] = {
 	_T("[00] No Error"),
 	_T("[01] Point does not exist or is invalid."),
 	_T("[02] Animation does not exist or is invalid."),
 	_T("[03] Active object does not exist or is invalid."),
 	_T("[04] Spriter object does not exist or is invalid"),
 	_T("[05] ScmlObject is invalid."),
+	_T("[06] Scml file is invalid."),
 };
 
 #include	<map>

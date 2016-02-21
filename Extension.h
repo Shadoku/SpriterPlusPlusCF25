@@ -84,6 +84,7 @@ public:
 	void ChangeKeyFrame(int keyNum);
 	void JumpToNextKeyFrame();
 	void JumpToPreviousKeyFrame();
+	void ClearLastError();
 
     /// Conditions
 	bool IsAnimationPlayingByName(TCHAR* name);

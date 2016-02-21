@@ -455,17 +455,24 @@ void Extension::LoadScmlFile(TCHAR* filename)
 	tinyxml2::XMLDocument doc;
 	char*  scmlFile = nullptr;
 	doc.LoadFileToBuffer(ws.c_str(), &scmlFile);
-	scmlFileString = scmlFile;
-	delete scmlModel;
-	scmlModel = new SpriterEngine::SpriterModel("dummy.scml", new SpriterEngine::Cf25FileFactory(rdPtr, this),
-		new SpriterEngine::Cf25ObjectFactory(rdPtr, this));
-	scmlObj = scmlModel->getNewEntityInstance(0);//assume first entity at start
-	doc.Clear();
-	SpriteSource.clear();
-	SoundBank.clear();
-	BoxLink.clear();
-	SoundEvent.clear();
-	TriggerEvent.clear();
+	if (!doc.Error())
+	{
+		scmlFileString = scmlFile;
+		delete scmlModel;
+		scmlModel = new SpriterEngine::SpriterModel("dummy.scml", new SpriterEngine::Cf25FileFactory(rdPtr, this),
+			new SpriterEngine::Cf25ObjectFactory(rdPtr, this));
+		scmlObj = scmlModel->getNewEntityInstance(0);//assume first entity at start
+		doc.Clear();
+		SpriteSource.clear();
+		SoundBank.clear();
+		BoxLink.clear();
+		SoundEvent.clear();
+		TriggerEvent.clear();
+	}
+	else
+	{
+		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[ScmlFileInvalid]);
+	}
 }
 
 /*!
@@ -543,4 +550,9 @@ void Extension::JumpToPreviousKeyFrame()
 	{
 		_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[ScmlObjectInvalid]);
 	}
+}
+
+void Extension::ClearLastError()
+{
+	_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[noError]);
 }

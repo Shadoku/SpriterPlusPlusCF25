@@ -47,6 +47,7 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkAction(21, ChangeKeyFrame);
 	LinkAction(22, JumpToNextKeyFrame);
 	LinkAction(23, JumpToPreviousKeyFrame);
+	LinkAction(24, ClearLastError);
     
 	LinkCondition(0, IsAnimationPlayingByName);
 	LinkCondition(1, HasCurrentAnimationFinished);
