@@ -70,8 +70,6 @@ namespace SpriterEngine
 		justFinished = false;
 		if (currentAnimation)
 		{
-			//if (isPlaying)
-			//{
 				timeElapsed *= playbackSpeedRatio;
 				real newTime = getCurrentTime() + timeElapsed;
 				
@@ -120,7 +118,6 @@ namespace SpriterEngine
 				{
 					currentAnimation->findAndProcessKeys(newTime, timeElapsed >= 0, &zOrder);
 				}
-			//}
 		}
 		else
 		{
@@ -226,8 +223,8 @@ namespace SpriterEngine
 
 	bool EntityInstance::isAnimationPlaying()
 	{
-		//return isPlaying;
-		return (abs(getCurrentTime() - currentAnimation->length()) > 0.0001 || currentAnimation->looping());
+		return isPlaying;
+		//return (abs(getCurrentTime() - currentAnimation->length()) > 0.0001 || currentAnimation->looping());
 	}
 
 	std::string EntityInstance::currentEntityName()
