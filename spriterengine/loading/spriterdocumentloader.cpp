@@ -850,8 +850,9 @@ namespace SpriterEngine
 				{
 					att = element->getFirstAttribute("c"+std::to_string(i+1));
 					if(att->isValid()) {
-						controlPoints[i] = att->getIntValue();
+						controlPoints[i] = att->getRealValue();
 					}
+					i++;
 				}
 			}
 		}

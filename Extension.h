@@ -12,7 +12,7 @@ public:
     static const int Version = 1;
 
     static const int OEFLAGS = OEFLAG_SPRITES|OEFLAG_MOVEMENTS|OEFLAG_VALUES|OEFLAG_BACKSAVE;
-	static const int OEPREFS = OEPREFS_BACKSAVE | OEPREFS_BACKEFFECTS | OEPREFS_INKEFFECTS | OEPREFS_KILL;
+	static const int OEPREFS = OEPREFS_BACKSAVE | OEPREFS_BACKEFFECTS | OEPREFS_INKEFFECTS | OEPREFS_KILL | OEPREFS_SCROLLINGINDEPENDANT;
     
     static const int WindowProcPriority = 100;
 
@@ -46,6 +46,7 @@ public:
 	bool flipX;
 	float speedRatio;
 	RECT displayRect;
+	wstring extSourcePath;
 
 	/*  Add your actions, conditions and expressions as real class member
         functions here. The arguments (and return type for expressions) must
@@ -73,18 +74,23 @@ public:
 	void SetAngle(float angle);
 	void LoadSpriteFromActive(string spriteName, LPRO pObj, int nAmim, int nDir, int nFrame);
 	void LoadOneSpriteFromActive(TCHAR* spriteName, LPRO pObj, int nAmim, int nDir, int nFrame);
+	void LoadSpriteFromExternal();
 	void LoadOrderedSpritesPerAnimation(LPRO pObj, int nAnim);
 	void LoadOrderedSpritesPerDirection(LPRO pObj, int nAnim, int nDir);
 	void LoadSoundFromSoundBank(TCHAR* soundPath, TCHAR* soundName);
 	void BoundBoxToObject(TCHAR* boxName, LPRO object);
 	void UnboundBoxFromObject(TCHAR* boxName);
 	void SetDebug(int showBones, int showBoxes, int showPoints);
-	void LoadScmlFile(TCHAR* filename);
+	void LoadScmlFileWithoutExternalFiles(TCHAR* filename);
+	void LoadScmlFileWithExternalFiles(TCHAR* filename);
+	void LoadScmlFile(TCHAR* filename, bool loadExternalFiles);
+	bool LoadImageFile(const LPMV mV, cSurface &surf, const std::wstring& filename);
 	void ChangeEntityByName(TCHAR* name);
 	void ChangeKeyFrame(int keyNum);
 	void JumpToNextKeyFrame();
 	void JumpToPreviousKeyFrame();
 	void ClearLastError();
+	void SetSpriteRelativePath(TCHAR* path);
 
     /// Conditions
 	bool IsAnimationPlayingByName(TCHAR* name);
@@ -112,6 +118,7 @@ public:
 	int GetPointPosY(TCHAR* pointName);
 	float GetPointAngle(TCHAR* pointName);
 	TCHAR * CurrentEntityName();
+	int DeltaTimeMs();
 
     /* These are called if there's no function linked to an ID */
 
