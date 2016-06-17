@@ -210,3 +210,8 @@ TCHAR * Extension::CurrentEntityName()
 		return _T("");
 	}
 }
+
+int Extension::DeltaTimeMs()
+{
+	return (deltaTime/1000);
+}

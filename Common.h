@@ -73,6 +73,7 @@ typedef struct
 	LPRO pObj;
 	WORD imageNumber;
 	bool loaded;
+	bool external;
 }Sprite;
 
 #include "Extension.h"

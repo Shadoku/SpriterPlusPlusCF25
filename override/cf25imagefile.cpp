@@ -19,8 +19,25 @@ namespace SpriterEngine
 		if (ext->SpriteSource.size()>0 && ext->SpriteSource.count(path()) && !ext->SpriteSource[path()].loaded)
 		{
 			cSurface source;
+			//if external sprite, load it into surface
+			if (ext->SpriteSource[path()].external)
+			{
+				std::wstring ws;
+				std::wstring fullPath;
+				string filepath = path();
+				ws.assign(filepath.begin(), filepath.end());
+				fullPath = ext->extSourcePath + ws;
+				if (ext->LoadImageFile(rdPtr->rHo.hoAdRunHeader->rh4.rh4Mv, sprite, fullPath))
+				{
+					ext->SpriteSource[path()].loaded = true;
+				}
+				else
+				{
+					//set error
+				}
+			}
 			//if the sprite from the active object is available and exists, clone it and release active object sprite
-			if (LockImageSurface(ext->SpriteSource[path()].pObj->roHo.hoAdRunHeader->rhIdAppli, ext->SpriteSource[path()].imageNumber, source))
+			else if (LockImageSurface(ext->SpriteSource[path()].pObj->roHo.hoAdRunHeader->rhIdAppli, ext->SpriteSource[path()].imageNumber, source))
 			{
 				sprite.Clone(source);
 				ext->SpriteSource[path()].loaded = true;

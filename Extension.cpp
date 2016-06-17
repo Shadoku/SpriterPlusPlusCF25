@@ -42,13 +42,15 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkAction(16, UnboundBoxFromObject);
 	LinkAction(17, SetDebug);
 	LinkAction(18, LoadOrderedSpritesPerDirection);
-	LinkAction(19, LoadScmlFile);
+	LinkAction(19, LoadScmlFileWithoutExternalFiles);
 	LinkAction(20, ChangeEntityByName);
 	LinkAction(21, ChangeKeyFrame);
 	LinkAction(22, JumpToNextKeyFrame);
 	LinkAction(23, JumpToPreviousKeyFrame);
 	LinkAction(24, ClearLastError);
-    
+	LinkAction(25, LoadSpriteFromExternal);
+	LinkAction(26, SetSpriteRelativePath);
+	    
 	LinkCondition(0, IsAnimationPlayingByName);
 	LinkCondition(1, HasCurrentAnimationFinished);
 	LinkCondition(2, IsTagActive);
@@ -73,6 +75,7 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkExpression(13, GetPointPosY);
 	LinkExpression(14, GetPointAngle);
 	LinkExpression(15, CurrentEntityName);
+	LinkExpression(16, DeltaTimeMs);
 	
     /*
         This is where you'd do anything you'd do in CreateRunObject in the original SDK
@@ -90,6 +93,7 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	speedRatio = 1.0f;
 	displayRect = { 0, 0, 0, 0 };
 	scmlObj = scmlModel->getNewEntityInstance(0);//assume first entity at start
+	extSourcePath = _T("");
 }
 
 Extension::~Extension()
@@ -149,12 +153,11 @@ short Extension::Display()
 	/*
 	   If you return REFLAG_DISPLAY in Handle() this routine will run.
 	   */
-
 	// Ok
 	if (IsScmlObjectValid())
 	{
 		LPSURFACE psw = WinGetSurface((int)rhPtr->rhIdEditWin);
-		deltaTime = GetTickCount64() - currentSystemTime;
+		deltaTime = (int)(GetTickCount64() - currentSystemTime);
 		currentSystemTime = GetTickCount64();
 		int posX = rdPtr->rHo.hoX - rhPtr->rhWindowX;
 		int posY = rdPtr->rHo.hoY - rhPtr->rhWindowY;

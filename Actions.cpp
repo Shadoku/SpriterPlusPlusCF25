@@ -314,6 +314,7 @@ void Extension::LoadSpriteFromActive(string spriteName, LPRO pObj, int nAnim, in
 					SpriteSource[spriteName].imageNumber = imageNumber;
 					SpriteSource[spriteName].pObj = pObj;
 					SpriteSource[spriteName].loaded = false;
+					SpriteSource[spriteName].external = false;
 				}
 			}
 		}
@@ -441,7 +442,7 @@ void Extension::SetDebug(int showBones, int showBoxes, int showPoints)
 }
 
 /*!
-*  \brief LoadScmlFile
+*  \brief LoadScmlFileWithoutExternalFiles
 *
 *  Load animation from a scml file. 
 *  All sprite, box and sound bindings are reset and should be set again according the new file.
@@ -449,7 +450,26 @@ void Extension::SetDebug(int showBones, int showBoxes, int showPoints)
 *
 *  \param filename : file name
 */
-void Extension::LoadScmlFile(TCHAR* filename)
+void Extension::LoadScmlFileWithoutExternalFiles(TCHAR* filename)
+{
+	LoadScmlFile(filename, false);
+}
+
+/*!
+*  \brief LoadScmlFileWithExternalFiles
+*
+*  Load animation from a scml file.
+*  All sprites are loaded from external files.
+*  All other containers are reset.
+*
+*  \param filename : file name
+*/
+void Extension::LoadScmlFileWithExternalFiles(TCHAR* filename)
+{
+	LoadScmlFile(filename, true);
+}
+
+void Extension::LoadScmlFile(TCHAR* filename, bool loadExternalFiles)
 {
 	wstring ws = wstring(filename);
 	tinyxml2::XMLDocument doc;
@@ -462,6 +482,10 @@ void Extension::LoadScmlFile(TCHAR* filename)
 		scmlModel = new SpriterEngine::SpriterModel("dummy.scml", new SpriterEngine::Cf25FileFactory(rdPtr, this),
 			new SpriterEngine::Cf25ObjectFactory(rdPtr, this));
 		scmlObj = scmlModel->getNewEntityInstance(0);//assume first entity at start
+		
+		//TODO load sprites if loadExternalFiles
+		//SpriteSource[0].pObj
+		
 		doc.Clear();
 		SpriteSource.clear();
 		SoundBank.clear();
@@ -555,4 +579,101 @@ void Extension::JumpToPreviousKeyFrame()
 void Extension::ClearLastError()
 {
 	_snwprintf_s(lastError, _countof(lastError), ERRORSIZE, ErrorS[noError]);
+}
+
+/*!
+*  \brief LoadImageFile
+*
+*  Load sprite from external file (embedded or on disk)
+*
+*  \param mV : pointer to mv
+*  \param surf : target surface for the sprite
+*  \param filename : file name 
+*/
+bool Extension::LoadImageFile(const LPMV mV, cSurface &surf, const std::wstring& filename)
+{
+	HANDLE	hf = INVALID_HANDLE_VALUE;
+
+	do
+	{
+		// Get surface prototype
+		LPSURFACE wSurf = WinGetSurface((int)mV->mvIdEditWin);
+		LPSURFACE proto = NULL;
+
+		//GetSurfacePrototype(&proto, (wSurf != NULL) ? wSurf->GetDepth() : 24, ST_MEMORYWITHDC, SD_DIB);
+		GetSurfacePrototype(&proto, (wSurf != NULL) ? wSurf->GetDepth() : 24, ST_HWA_ROMTEXTURE, SD_D3D9);
+		if (proto == NULL)
+			break;
+
+		// Ask MMF2 to open the file (opens external file and embedded files, and downloads files in Vitalize mode)
+		DWORD dwSize;
+		hf = mV->mvOpenHFile(filename.c_str(), &dwSize, 0);
+		if (hf == INVALID_HANDLE_VALUE)
+			break;
+
+		// Create CInpuBufFile object associated with the file handle
+		DWORD dwOff = File_GetPosition((HFILE)hf);
+		CInputBufFile bf;
+		if (bf.Create((HFILE)hf, dwOff, dwSize) != 0)
+			break;
+
+		// Create sprite surface
+		surf.Create(4, 4, proto);
+		/*surf.Fill(RGB(0, 0, 0));
+		if (surf.GetDepth() == 8)
+		if (wSurf)
+		{
+		surf.SetPalette(*wSurf);
+		}*/
+
+		// Load picture
+		CImageFilterMgr* pImgMgr = mV->mvImgFilterMgr;
+		//bool import = CanImportImage(pImgMgr, &fname[0]);
+		CImageFilter    pFilter(pImgMgr);
+
+		if (!ImportImageFromInputFile(pImgMgr, &bf, &surf, NULL, IMPORT_IMAGE_USESURFACEDEPTH | IMPORT_IMAGE_USESURFACEPALETTE | IMPORT_IMAGE_FIRSTPIXELTRANSP))
+		{
+			return false;
+		}
+
+
+	} while (FALSE);
+
+	// Close picture file (opened with mvOpenHFile)
+	if (hf != INVALID_HANDLE_VALUE)
+	{
+		mV->mvCloseHFile(hf);
+	}
+
+	return true;
+}
+
+void Extension::LoadSpriteFromExternal()
+{
+	tinyxml2::XMLDocument doc;
+	int nFolder = 0;
+	int nFile = 0;
+	if (doc.LoadFileFromBuffer(scmlFileString.c_str()) == tinyxml2::XML_SUCCESS)
+	{
+		tinyxml2::XMLElement* root = doc.FirstChildElement("spriter_data");
+		if (root != NULL)
+		{
+			for (tinyxml2::XMLElement* folderChild = root->FirstChildElement("folder"); folderChild != NULL; folderChild = folderChild->NextSiblingElement("folder"))
+			{
+				for (tinyxml2::XMLElement* fileChild = folderChild->FirstChildElement("file"); fileChild != NULL; fileChild = fileChild->NextSiblingElement("file"))
+				{
+					SpriteSource[fileChild->Attribute("name")].imageNumber = 0;
+					SpriteSource[fileChild->Attribute("name")].pObj = nullptr;
+					SpriteSource[fileChild->Attribute("name")].loaded = false;
+					SpriteSource[fileChild->Attribute("name")].external = true;
+				}
+			}
+		}
+	}
+}
+
+void Extension::SetSpriteRelativePath(TCHAR* path)
+{
+	wstring ws = wstring(path);
+	extSourcePath = ws;
 }

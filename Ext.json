@@ -3,7 +3,8 @@
         "Name": "Spriter Object",
         "Author": "ConceptGame",
         "Copyright": "Copyright (C) 2014 ConceptGame",
-        "Comment": "Procedural animation object based on Spriter format (v0.8)",
+        "Comment": "Procedural animation object based on Spriter format (v1.0)",
+        "Version": "v1.0",
         "URL": "http://www.example.com",
         "Help": "Help/Spriter.chm",
         "Identifier": "SPRI"
@@ -104,6 +105,14 @@
             [
                 18,
                 "Load Ordered Sprites from active per direction"
+            ],
+            [
+                25,
+                "Load Sprites from external source"
+            ],
+            [
+                26,
+                "Set external source path"
             ]
         ],
         [
@@ -215,6 +224,10 @@
             [
                 5,
                 "Current Animation Name"
+            ],
+            [
+                16,
+                "Delta Time"
             ]
         ],
         [
@@ -494,6 +507,18 @@
         },
         {
             "Title": "Clear last error"
+        },
+        {
+            "Title": "Load sprites from external source"
+        },
+        {
+            "Title": "Set external path to %0",
+            "Parameters": [
+                [
+                    "Text",
+                    "External path (ex.: sprites/greyGuy/"
+                ]
+            ]
         }
 
     ],
@@ -697,6 +722,10 @@
         {
             "Title": "CurrentEntityName(",
             "Returns": "Text"
+        },
+        {
+            "Title": "DeltaTime(",
+            "Returns": "Integer"
         }
     ]
 }
