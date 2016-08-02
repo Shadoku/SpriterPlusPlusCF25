@@ -6,6 +6,7 @@
 
 #include "../override/imagefile.h"
 #include "../override/soundfile.h"
+#include "../override/atlasfile.h"
 #include "../override/filefactory.h"
 #include "../override/objectfactory.h"
 
@@ -127,14 +128,31 @@ namespace SpriterEngine
 		return entities.back();
 	}
 
-	void SpriterModel::pushBackImageFile(std::string initialFilePath, point initialDefaultPivot)
+	void SpriterModel::pushBackImageFile(std::string initialFilePath, point initialDefaultPivot, atlasdata atlasData)
 	{
-		files.push_back(fileFactory->newImageFile(initialFilePath, initialDefaultPivot));
+		files.push_back(fileFactory->newImageFile(initialFilePath, initialDefaultPivot, atlasData));
 	}
 
 	void SpriterModel::pushBackSoundFile(std::string initialFilePath)
 	{
 		files.push_back(fileFactory->newSoundFile(initialFilePath));
+	}
+
+	void SpriterModel::pushBackAtlas(std::string initialFilePath)
+	{
+		atlasFiles.push_back(fileFactory->newAtlasFile(initialFilePath));
+	}
+
+	void SpriterModel::addAtlasFrameData(std::string initialFilePath, atlasframedata initialData)
+	{
+		for (File* it : files)
+		{
+			if(it->path().compare(initialFilePath) == 0) {
+				if(it->imageFile()) {
+					it->imageFile()->setAtlasFile(atlasFiles.back()->atlasFile(), initialData);
+				}
+			}
+		}
 	}
 
 	void SpriterModel::pushBackTag(std::string newTag)

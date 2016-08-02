@@ -8,6 +8,8 @@
 
 #include "../loading/loader.h"
 
+#include "../global/atlas.h"
+
 namespace SpriterEngine
 {
 
@@ -38,13 +40,18 @@ namespace SpriterEngine
 		void setupFileReferences(FileReferenceVector *fileReferences);
 
 		Entity *pushBackEntity(std::string entityName);
-		void pushBackImageFile(std::string initialFilePath, point initialDefaultPivot);
+		void pushBackImageFile(std::string initialFilePath, point initialDefaultPivot, atlasdata atlasData);
 		void pushBackSoundFile(std::string initialFilePath);
+		void pushBackAtlas(std::string initialFilePath);
+		void addAtlasFrameData(std::string initialFilePath, atlasframedata initialData);
 		void pushBackTag(std::string newTag);
 
 		int fileCount();
 
 		File * getFileAtIndex(int fileIndex);
+		FileFactory* getFileFactory() {
+			return fileFactory;
+		}
 
 		const std::string *getTag(int tagIndex);
 
@@ -52,6 +59,7 @@ namespace SpriterEngine
 
 	private:
 		FileVector files;
+		FileVector atlasFiles;
 		EntityVector entities;
 		StringVector tags;
 

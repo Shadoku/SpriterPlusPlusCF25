@@ -2,6 +2,7 @@
 
 #include "imagefile.h"
 #include "soundfile.h"
+#include "atlasfile.h"
 
 #include "spriterfiledocumentwrapper.h"
 
@@ -16,7 +17,7 @@ namespace SpriterEngine
 	{
 	}
 
-	ImageFile * FileFactory::newImageFile(const std::string &initialFilePath, point initialDefaultPivot)
+	ImageFile * FileFactory::newImageFile(const std::string &initialFilePath, point initialDefaultPivot, atlasdata atlasData)
 	{
 		return new ImageFile(initialFilePath, initialDefaultPivot);
 	}
@@ -24,6 +25,11 @@ namespace SpriterEngine
 	SoundFile * FileFactory::newSoundFile(const std::string &initialFilePath)
 	{
 		return new SoundFile(initialFilePath);
+	}
+
+	AtlasFile *FileFactory::newAtlasFile(const std::string &initialFilePath)
+	{
+		return new AtlasFile(initialFilePath);
 	}
 
 	SpriterFileDocumentWrapper * FileFactory::newScmlDocumentWrapper()
