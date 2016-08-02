@@ -3,7 +3,7 @@
         "Name": "Spriter Object",
         "Author": "ConceptGame",
         "Copyright": "Copyright (C) 2014 ConceptGame",
-        "Comment": "Procedural animation object based on Spriter format (v1.0)",
+        "Comment": "Procedural animation object based on Spriter format (v1.1)",
         "URL": "http://www.example.com",
         "Help": "Help/Spriter.chm",
         "Identifier": "SPRI"
@@ -171,6 +171,10 @@
             [
                 6,
                 "Is animation flipped?"
+            ],
+            [
+                7,
+                "Compare current key frame to value"
             ]
         ],
         [
@@ -227,6 +231,10 @@
             [
                 16,
                 "Delta Time"
+            ],
+            [
+                17,
+                "Curent Key Frame (Mainline)"
             ]
         ],
         [
@@ -583,6 +591,16 @@
         {
             "Title": "%o : Is animation flipped",
             "Triggered": false
+        },
+        {
+            "Title": "%o : Is Current Keyframe %0?",
+            "Parameters": [
+                [
+                    "Comparison",
+                    "KeyFrame Id"
+                ]
+            ],
+            "Triggered": false
         }
     ],
     "Expressions": [
@@ -724,6 +742,10 @@
         },
         {
             "Title": "DeltaTime(",
+            "Returns": "Integer"
+        },
+        {
+            "Title": "CurrentKeyFrame(",
             "Returns": "Integer"
         }
     ]

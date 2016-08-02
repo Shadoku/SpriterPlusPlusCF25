@@ -101,6 +101,7 @@ public:
 	bool OnSoundEvent(TCHAR* soundName);
 	bool OnTriggerEvent(TCHAR* triggerName);
 	bool IsAnimationFlipped();
+	long CompareCurrentKeyFrameToValue(int val);
     /// Expressions
 	TCHAR * LastError();
 	TCHAR * CurrentAnimationName();
@@ -119,6 +120,7 @@ public:
 	float GetPointAngle(TCHAR* pointName);
 	TCHAR * CurrentEntityName();
 	int DeltaTimeMs();
+	int CurentKeyFrame();
 
     /* These are called if there's no function linked to an ID */
 

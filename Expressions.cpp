@@ -215,3 +215,9 @@ int Extension::DeltaTimeMs()
 {
 	return (deltaTime/1000);
 }
+
+int Extension::CurentKeyFrame()
+{
+	return scmlObj->currentMainlineKeyIndex();
+}
+

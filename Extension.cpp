@@ -58,6 +58,7 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkCondition(4, OnSoundEvent);
 	LinkCondition(5, OnTriggerEvent);
 	LinkCondition(6, IsAnimationFlipped);
+	LinkCondition(7, CompareCurrentKeyFrameToValue);
 	
 	LinkExpression(0, LastError);
 	LinkExpression(1, GetScale);
@@ -76,6 +77,7 @@ Extension::Extension(LPRDATA _rdPtr, LPEDATA edPtr, fpcob cobPtr)
 	LinkExpression(14, GetPointAngle);
 	LinkExpression(15, CurrentEntityName);
 	LinkExpression(16, DeltaTimeMs);
+	LinkExpression(17, CurentKeyFrame);
 	
     /*
         This is where you'd do anything you'd do in CreateRunObject in the original SDK

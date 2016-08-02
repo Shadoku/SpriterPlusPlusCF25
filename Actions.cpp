@@ -121,6 +121,7 @@ void Extension::ChangeEntityByNumber(int num)
 {
 	if (IsScmlObjectValid())
 	{
+		scmlObj = scmlModel->getNewEntityInstance(num);
 		scmlObj->setCurrentEntity(num);
 	}
 	else
@@ -515,6 +516,7 @@ void Extension::ChangeEntityByName(TCHAR* name)
 		#ifdef _DEBUG
 			printf("%d: set entity to %s\n", currentSystemTime, s.c_str());
 		#endif
+		scmlObj = scmlModel->getNewEntityInstance(s);
 		scmlObj->setCurrentEntity(s);
 	}
 	else

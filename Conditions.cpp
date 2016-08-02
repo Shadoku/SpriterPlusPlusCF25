@@ -83,4 +83,9 @@ bool Extension::IsAnimationFlipped()
 	return flipX;
 }
 
+long Extension::CompareCurrentKeyFrameToValue(int val)
+{
+	return scmlObj->currentMainlineKeyIndex();
+}
+
 
