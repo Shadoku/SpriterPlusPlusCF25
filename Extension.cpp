@@ -105,6 +105,7 @@ Extension::~Extension()
         (except calling destructors and other such atrocities, because that's automatic in Edif)
     */
 	delete scmlModel;
+	delete scmlObj;
 }
 
 

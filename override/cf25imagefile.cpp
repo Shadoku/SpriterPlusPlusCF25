@@ -13,6 +13,14 @@ namespace SpriterEngine
 	{
 	}
 
+	Cf25ImageFile::~Cf25ImageFile()
+	{
+		if (sprite.IsValid())
+		{
+			sprite.Delete();
+		}
+	}
+
 	void Cf25ImageFile::renderSprite(UniversalObjectInterface * spriteInfo)
 	{
 		//if not loaded yet and sprite source is not empty and the corresponding sprite exists, load the sprite

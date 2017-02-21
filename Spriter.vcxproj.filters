@@ -426,6 +426,9 @@
     <ClCompile Include="override\cf25triggerobjectinfo.cpp">
       <Filter>Source Files\SpriterEngine\override</Filter>
     </ClCompile>
+    <ClCompile Include="spriterengine\override\atlasfile.cpp">
+      <Filter>Source Files\SpriterEngine\spriterengine\override</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Ext.def">
@@ -792,6 +795,12 @@
     </ClInclude>
     <ClInclude Include="override\cf25triggerobjectinfo.h">
       <Filter>Header Files\SpriterEngine\override</Filter>
+    </ClInclude>
+    <ClInclude Include="spriterengine\global\atlas.h">
+      <Filter>Header Files\SpriterEngine\spriterengine\global</Filter>
+    </ClInclude>
+    <ClInclude Include="spriterengine\override\atlasfile.h">
+      <Filter>Header Files\SpriterEngine\spriterengine\override</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

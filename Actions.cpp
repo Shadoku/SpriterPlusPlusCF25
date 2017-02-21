@@ -43,7 +43,7 @@ void Extension::ChangeAnimationByName(TCHAR* name)
 	{
 		wstring ws = wstring(name);
 		string s(ws.begin(), ws.end());
-		if (scmlObj->getEntity(0)->animationExists(s))
+		if (scmlObj->currentEntityAnimationExists(s))
 		{
 			scmlObj->setCurrentAnimation(s);
 			scmlObj->startResumePlayback();
@@ -76,7 +76,7 @@ void Extension::ChangeAnimationByNameWithBlending(TCHAR* name, int blendingTime)
 	{
 		wstring ws = wstring(name);
 		string s(ws.begin(), ws.end());
-		if (scmlObj->getEntity(0)->animationExists(s))
+		if (scmlObj->currentEntityAnimationExists(s))
 		{
 			scmlObj->setCurrentAnimation(s, blendingTime);
 			scmlObj->startResumePlayback();
@@ -121,7 +121,7 @@ void Extension::ChangeEntityByNumber(int num)
 {
 	if (IsScmlObjectValid())
 	{
-		scmlObj = scmlModel->getNewEntityInstance(num);
+		//scmlObj = scmlModel->getNewEntityInstance(num);
 		scmlObj->setCurrentEntity(num);
 	}
 	else
@@ -479,6 +479,7 @@ void Extension::LoadScmlFile(TCHAR* filename, bool loadExternalFiles)
 	if (!doc.Error())
 	{
 		scmlFileString = scmlFile;
+		delete scmlObj;
 		delete scmlModel;
 		scmlModel = new SpriterEngine::SpriterModel("dummy.scml", new SpriterEngine::Cf25FileFactory(rdPtr, this),
 			new SpriterEngine::Cf25ObjectFactory(rdPtr, this));
@@ -493,6 +494,10 @@ void Extension::LoadScmlFile(TCHAR* filename, bool loadExternalFiles)
 		BoxLink.clear();
 		SoundEvent.clear();
 		TriggerEvent.clear();
+
+		//delete temporary buffer
+		delete[] scmlFile;
+		scmlFile = nullptr;
 	}
 	else
 	{
@@ -516,8 +521,11 @@ void Extension::ChangeEntityByName(TCHAR* name)
 		#ifdef _DEBUG
 			printf("%d: set entity to %s\n", currentSystemTime, s.c_str());
 		#endif
-		scmlObj = scmlModel->getNewEntityInstance(s);
 		scmlObj->setCurrentEntity(s);
+		/*if (scmlObj != NULL)
+		{
+			scmlObj->setCurrentEntity(s);
+		}*/
 	}
 	else
 	{

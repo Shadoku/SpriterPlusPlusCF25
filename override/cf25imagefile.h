@@ -12,6 +12,8 @@ namespace SpriterEngine
 	public:
 		Cf25ImageFile(std::string initialFilePath, point initialDefaultPivot, LPRDATA rdPtr, Extension *ext);
 
+		~Cf25ImageFile();
+
 		void renderSprite(UniversalObjectInterface *spriteInfo) override;
 
 	private:

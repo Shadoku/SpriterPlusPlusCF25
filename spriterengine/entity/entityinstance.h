@@ -63,6 +63,7 @@ namespace SpriterEngine
 
 		bool animationJustFinished(bool orLooped = false);
 		bool animationJustLooped();
+		bool currentEntityAnimationExists(const std::string &animationName);
 
 		VariableInstanceNameAndIdMap *getVariables() override;
 		UniversalObjectInterface *getVariable(int variableId);

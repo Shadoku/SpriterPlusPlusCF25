@@ -610,6 +610,15 @@ namespace SpriterEngine
 		return false;
 	}
 
+	bool EntityInstance::currentEntityAnimationExists(const std::string &animationName)
+	{
+		if (currentEntity)
+		{
+			return currentEntity->animationExists(animationName);
+		}
+		return false;
+	}
+
 	void EntityInstance::setCurrentTimeToNextKeyFrame()
 	{
 		justFinished = false;

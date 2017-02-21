@@ -16,7 +16,7 @@ namespace SpriterEngine
 	{
 	}
 
-	ImageFile * Cf25FileFactory::newImageFile(const std::string &initialFilePath, point initialDefaultPivot)
+	ImageFile * Cf25FileFactory::newImageFile(const std::string &initialFilePath, point initialDefaultPivot, atlasdata atlasData)
 	{
 		return new Cf25ImageFile(initialFilePath, initialDefaultPivot, rdPtr, ext);
 	}

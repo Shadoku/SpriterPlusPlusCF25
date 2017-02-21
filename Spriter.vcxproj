@@ -411,6 +411,7 @@
     <ClCompile Include="spriterengine\objectref\spriteref.cpp" />
     <ClCompile Include="spriterengine\objectref\spriterefinstance.cpp" />
     <ClCompile Include="spriterengine\objectref\transformprocessor.cpp" />
+    <ClCompile Include="spriterengine\override\atlasfile.cpp" />
     <ClCompile Include="spriterengine\override\filefactory.cpp" />
     <ClCompile Include="spriterengine\override\imagefile.cpp" />
     <ClCompile Include="spriterengine\override\objectfactory.cpp" />
@@ -501,6 +502,7 @@
     <ClInclude Include="spriterengine\entity\object.h" />
     <ClInclude Include="spriterengine\file\file.h" />
     <ClInclude Include="spriterengine\file\filereference.h" />
+    <ClInclude Include="spriterengine\global\atlas.h" />
     <ClInclude Include="spriterengine\global\global.h" />
     <ClInclude Include="spriterengine\global\settings.h" />
     <ClInclude Include="spriterengine\loading\loader.h" />
@@ -536,6 +538,7 @@
     <ClInclude Include="spriterengine\objectref\spriteref.h" />
     <ClInclude Include="spriterengine\objectref\spriterefinstance.h" />
     <ClInclude Include="spriterengine\objectref\transformprocessor.h" />
+    <ClInclude Include="spriterengine\override\atlasfile.h" />
     <ClInclude Include="spriterengine\override\filefactory.h" />
     <ClInclude Include="spriterengine\override\imagefile.h" />
     <ClInclude Include="spriterengine\override\objectfactory.h" />
