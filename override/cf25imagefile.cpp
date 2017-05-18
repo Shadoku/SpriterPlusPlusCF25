@@ -58,18 +58,92 @@ namespace SpriterEngine
 		float posX = spriteInfo->getPivot().x*w;
 		float posY = spriteInfo->getPivot().y*h;
 		POINT center = { (LONG)posX, (LONG)posY };
-		float alp = spriteInfo->getAlpha();
-		int alpha = 128*abs(1-spriteInfo->getAlpha());
+		
 		DWORD flags = rdPtr->rs->rsEffect & EFFECTFLAG_ANTIALIAS ? (STRF_RESAMPLE_TRANSP) : 0UL;
 		LPSURFACE psw = WinGetSurface((int)rdPtr->rHo.hoAdRunHeader->rhIdEditWin);
-		//LPARAM bParam = (rdPtr->rs->rsEffectParam & 0xffffff) | (int(max(0, min(255, 128 - alpha*128.0 / 255))) << 24);
+		double alpha = spriteInfo->getAlpha();
+		DWORD dwEffect = rdPtr->rs->rsEffect;// dwEffect et dwEffectParam = values to pass to BlitEx
+		DWORD dwEffectParam = rdPtr->rs->rsEffectParam;
+		DWORD dwRGBAOld = 0;// to restore old alpha value
+		CEffectEx* pEffectEx = NULL;
+		if (alpha != 1.0)
+		{
+			DWORD objectAlpha = 255;
+			switch (dwEffect & BOP_MASK) {
+
+				// Shader -> RGBA coefficient is stored in the effect
+			case BOP_EFFECTEX:
+			{
+				pEffectEx = (CEffectEx*)dwEffectParam;
+				if (pEffectEx != NULL)
+				{
+					// Get alpha coef
+					dwRGBAOld = pEffectEx->GetRGBA();
+					objectAlpha = (dwRGBAOld >> 24);
+
+					// Apply sprite alpha
+					objectAlpha = (DWORD)(objectAlpha * alpha);
+
+					// Modify effect alpha
+					pEffectEx->SetRGBA((dwRGBAOld & 0x00FFFFFF) | (objectAlpha << 24));
+				}
+			}
+			break;
+
+			// Legacy semi-transparency => the old semitransparency coefficient is in effectParam
+			case BOP_BLEND:
+				// Convert legacy semi-transp coef into alpha coef
+				#define SEMITRANSPTOALPHA(s) ((s==128) ? 0:(255-s*2))
+				objectAlpha = SEMITRANSPTOALPHA(dwEffectParam);
+
+				// Apply sprite alpha
+				objectAlpha = (DWORD)(objectAlpha * alpha);
+
+				// Store as RGBA coefficient in effectParam
+				dwEffect &= ~BOP_MASK;
+				dwEffect |= (BOP_COPY | BOP_RGBAFILTER);
+				dwEffectParam = (0x00FFFFFF | (objectAlpha << 24));
+				break;
+
+				// Other effect
+			default:
+				// effectParam = RGBA coef?
+				if (dwEffect & BOP_RGBAFILTER)
+				{
+					// Get alpha
+					objectAlpha = (((DWORD)dwEffectParam) >> 24);
+
+					// Apply sprite alpha
+					objectAlpha = (DWORD)(objectAlpha * alpha);
+
+					// Set alpha in RGBA coef
+					dwEffectParam = ((dwEffectParam & 0x00FFFFFF) | (objectAlpha << 24));
+				}
+
+				// No
+				else
+				{
+					// Apply alpha to 255
+					objectAlpha *= alpha;
+
+					// Store RGBA coef in effectParam
+					dwEffectParam = (0x00FFFFFF | (objectAlpha << 24));
+					dwEffect |= BOP_RGBAFILTER;
+				}
+				break;
+			}
+		}
+
+		// Blit sprite
 		sprite.BlitEx(*psw, spriteInfo->getPosition().x, spriteInfo->getPosition().y,
-			spriteInfo->getScale().x, spriteInfo->getScale().y, 0, 0,
-			w, h, &center, (float)toDegrees(spriteInfo->getAngle()),
-			(rdPtr->rs->rsEffect & EFFECTFLAG_TRANSPARENT) ? BMODE_TRANSP : BMODE_OPAQUE,
-			BlitOp((rdPtr->rs->rsEffect & EFFECT_MASK)|BOP_BLEND),
-			alpha, flags);
-		
+			spriteInfo->getScale().x, spriteInfo->getScale().y, 0, 0, w, h, &center, (float)toDegrees(spriteInfo->getAngle()),
+			(dwEffect & EFFECTFLAG_TRANSPARENT) ? BMODE_TRANSP : BMODE_OPAQUE,
+			BlitOp(dwEffect & EFFECT_MASK),dwEffectParam, flags);
+
+		// Restore effect alpha if it was modified
+		if (pEffectEx != NULL)
+			pEffectEx->SetRGBA(dwRGBAOld);
+				
 		//calculate display rectangle
 		RECT minR = { 0, 0, 0, 0 };
 		POINT inPoints[4];
