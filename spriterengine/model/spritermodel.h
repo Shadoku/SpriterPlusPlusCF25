@@ -37,6 +37,7 @@ namespace SpriterEngine
 		EntityInstance *getNewEntityInstance(EntityIdVector *entityIds);
 		EntityInstance *getNewEntityInstance(std::string entityName);
 		void appendEntityToInstanceByName(EntityInstance * entityInstance, std::string entityName);
+		void appendEntityToInstanceById(EntityInstance * entityInstance, int entityId);
 		void setupFileReferences(FileReferenceVector *fileReferences);
 
 		Entity *pushBackEntity(std::string entityName);

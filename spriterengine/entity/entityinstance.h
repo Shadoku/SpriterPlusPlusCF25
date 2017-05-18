@@ -136,6 +136,7 @@ namespace SpriterEngine
 
 		void appendEntity(SpriterModel *model, Entity *entity, ObjectFactory *objectFactory);
 		void appendEntity(SpriterModel * model, std::string entityName);
+		void appendEntity(SpriterModel * model, int entityId);
 
 		EntityInstanceData *getEntity(int entityId) override;
 

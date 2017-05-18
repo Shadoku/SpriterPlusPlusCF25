@@ -101,6 +101,26 @@ namespace SpriterEngine
 		}
 	}
 
+	void SpriterModel::appendEntityToInstanceById(EntityInstance *entityInstance, int entityId)
+	{
+		if (entityInstance)
+		{
+			Entity *entity = getEntity(entityId);
+			if (entity)
+			{
+				entityInstance->appendEntity(this, entity, objectFactory);
+			}
+			else
+			{
+				Settings::error("SpriterModel::appendEntityToInstanceById - no entityInstance provided \"" + std::to_string(entityId) + "\"");
+			}
+		}
+		else
+		{
+			Settings::error("SpriterModel::appendEntityToInstanceById - no entityInstance provided \"" + std::to_string(entityId) + "\"");
+		}
+	}
+
 	EntityInstance * SpriterModel::getNewEntityInstance(std::string entityName)
 	{
 		for (auto& it : entities)

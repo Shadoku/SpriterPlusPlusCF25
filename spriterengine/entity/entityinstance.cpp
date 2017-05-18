@@ -463,7 +463,7 @@ namespace SpriterEngine
 		angle.spinDirection = newSpin;
 	}
 
-
+	// conceptgame[27.02.2017]: it does not seem to work properly
 	void EntityInstance::setCurrentEntity(int newEntityId)
 	{
 		auto it = entities.find(newEntityId);
@@ -740,6 +740,11 @@ namespace SpriterEngine
 	void EntityInstance::appendEntity(SpriterModel * model, std::string entityName)
 	{
 		model->appendEntityToInstanceByName(this, entityName);
+	}
+
+	void EntityInstance::appendEntity(SpriterModel * model, int entityId)
+	{
+		model->appendEntityToInstanceById(this, entityId);
 	}
 
 	EntityInstanceData * EntityInstance::getEntity(int entityId)
