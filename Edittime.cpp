@@ -339,7 +339,28 @@ void WINAPI	DLLExport CreateFromFile(LPMV mV, LPTSTR fileName, LPEDATA edPtr)
 			char* scmlFile = nullptr;
 			_tcscpy(edPtr->scmlFilename, fileName);
 			tinyxml2::XMLDocument doc;
-			doc.LoadFileToBuffer(fileName, &scmlFile);
+			tinyxml2::XMLError res = doc.LoadFileToBuffer(fileName, &scmlFile);
+			if (res != 0)
+			{
+				wstring message = _T("Error by loading scml file: ");
+				switch (res)
+				{
+					case tinyxml2::XMLError::XML_ERROR_FILE_NOT_FOUND:
+						message += _T("file not found.");
+					break;
+					case tinyxml2::XMLError::XML_ERROR_FILE_COULD_NOT_BE_OPENED:
+						message += _T("file cannot be opened.");
+						break;
+					case tinyxml2::XMLError::XML_ERROR_FILE_READ_ERROR:
+						message += _T("file read error.");
+						break;
+					default:
+						message += _T("unkwown error.");
+						break;
+				}
+				MessageBox(0, message.c_str(), _T("Error"), MB_OK | MB_ICONERROR);
+				return;
+			}
 			doc.Clear();
 			int copy = MessageBox(0, _T("Do you want to copy all sprites to import in CF2.5?"), _T("Warning"), MB_YESNO | MB_ICONWARNING);
 			if (copy == IDYES)

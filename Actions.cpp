@@ -121,8 +121,8 @@ void Extension::ChangeEntityByNumber(int num)
 {
 	if (IsScmlObjectValid())
 	{
-		//scmlObj = scmlModel->getNewEntityInstance(num);
-		scmlObj->setCurrentEntity(num);
+		scmlObj->appendEntity(scmlModel, num);
+		scmlObj->setCurrentEntity(scmlObj->getEntity(num)->getName());
 	}
 	else
 	{
@@ -521,11 +521,13 @@ void Extension::ChangeEntityByName(TCHAR* name)
 		#ifdef _DEBUG
 			printf("%d: set entity to %s\n", currentSystemTime, s.c_str());
 		#endif
+		/*delete scmlObj;
+		scmlObj = scmlModel->getNewEntityInstance(s);*/
+
+		scmlObj->appendEntity(scmlModel, s);
 		scmlObj->setCurrentEntity(s);
-		/*if (scmlObj != NULL)
-		{
-			scmlObj->setCurrentEntity(s);
-		}*/
+		/* OR */
+		//scmlObj->setCurrentEntity(s, "initialAnimationName", scmlModel);
 	}
 	else
 	{

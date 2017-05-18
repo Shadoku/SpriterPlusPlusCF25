@@ -181,11 +181,11 @@ float Extension::GetPointAngle(TCHAR* pointName)
 	{
 		if (flipX)
 		{
-			res = (float)(point->getAngle()+180);
+			res = (float)SpriterEngine::toDegrees(point->getAngle() + 180);
 		}
 		else
 		{
-			res = (float)point->getAngle();
+			res = (float)SpriterEngine::toDegrees(point->getAngle());
 		}
 		
 	}

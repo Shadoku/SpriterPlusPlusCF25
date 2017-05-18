@@ -11,6 +11,7 @@
 #include  "Edif.h"
 #include "Resource.h"
 #include "atlstr.h"
+#include "EffectEx.h"
 
 enum ErrorN
 {
