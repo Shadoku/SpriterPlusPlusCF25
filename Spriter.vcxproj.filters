@@ -802,6 +802,12 @@
     <ClInclude Include="spriterengine\override\atlasfile.h">
       <Filter>Header Files\SpriterEngine\spriterengine\override</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Inc\EffectEx.h">
+      <Filter>Global to all extensions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Inc\SurfaceDefs.h">
+      <Filter>Global to all extensions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Ext.rc">
