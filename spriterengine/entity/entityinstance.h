@@ -56,6 +56,7 @@ namespace SpriterEngine
 
 		std::string currentEntityName();
 		std::string currentAnimationName();
+		int currentAnimationID();
 
 		int animationCount();
 

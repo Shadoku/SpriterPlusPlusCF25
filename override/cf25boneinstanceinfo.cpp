@@ -9,10 +9,10 @@ namespace SpriterEngine
 		BoneInstanceInfo(initialSize),
 		rdPtr(rdPtr)
 	{
-		pts[0] = { 0, initialSize.y / 2.0 };
+		pts[0] = { 0, static_cast<long>(initialSize.y / 2.0 )};
 		pts[1] = { 4, 0};
-		pts[2] = { initialSize.x, initialSize.y / 2.0 };
-		pts[3] = { 4, initialSize.y};
+		pts[2] = { static_cast<long>(initialSize.x),static_cast<long>(initialSize.y / 2.0 )};
+		pts[3] = { 4,static_cast<long>(initialSize.y)};
 	}
 
 	void Cf25BoneInstanceInfo::render()

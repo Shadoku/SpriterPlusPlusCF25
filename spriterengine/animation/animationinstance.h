@@ -30,6 +30,8 @@ namespace SpriterEngine
 
 		std::string getName();
 
+		int getID();
+
 		bool looping();
 
 		real length();
@@ -73,6 +75,8 @@ namespace SpriterEngine
 		TimelineInstanceVector timelines;
 
 		std::string name;
+
+		int ID;
 
 		real animationLength;
 		bool isLooping;

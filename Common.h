@@ -12,6 +12,8 @@
 #include "Resource.h"
 #include "atlstr.h"
 #include "EffectEx.h"
+using std::string;
+using std::wstring;
 
 enum ErrorN
 {
@@ -75,6 +77,8 @@ typedef struct
 	WORD imageNumber;
 	bool loaded;
 	bool external;
+	wstring path;
+
 }Sprite;
 
 #include "Extension.h"

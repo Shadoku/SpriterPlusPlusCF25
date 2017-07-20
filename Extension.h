@@ -1,3 +1,4 @@
+using std::unordered_map;
 
 class Extension
 {

@@ -252,6 +252,15 @@ namespace SpriterEngine
 		return "";
 	}
 
+	int EntityInstance::currentAnimationID()
+	{
+		if (currentAnimation)
+		{
+			return currentAnimation->getID();
+		}
+		return -1;
+	}
+
 	int EntityInstance::animationCount()
 	{
 		if (currentEntity)

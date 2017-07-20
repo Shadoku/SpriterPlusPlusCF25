@@ -52,6 +52,11 @@ namespace SpriterEngine
 		return name;
 	}
 
+	int AnimationInstance::getID()
+	{
+		return ID;
+	}
+
 	bool AnimationInstance::looping()
 	{
 		return isLooping;

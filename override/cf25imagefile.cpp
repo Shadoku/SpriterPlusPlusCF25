@@ -4,6 +4,10 @@
 
 #include "spriterengine/objectinfo/universalobjectinterface.h"
 
+#include <wchar.h>
+
+#include <direct.h>
+
 namespace SpriterEngine
 {
 
@@ -23,6 +27,7 @@ namespace SpriterEngine
 
 	void Cf25ImageFile::renderSprite(UniversalObjectInterface * spriteInfo)
 	{
+
 		//if not loaded yet and sprite source is not empty and the corresponding sprite exists, load the sprite
 		if (ext->SpriteSource.size()>0 && ext->SpriteSource.count(path()) && !ext->SpriteSource[path()].loaded)
 		{
@@ -34,15 +39,21 @@ namespace SpriterEngine
 				std::wstring fullPath;
 				string filepath = path();
 				ws.assign(filepath.begin(), filepath.end());
-				fullPath = ext->extSourcePath + ws;
-				if (ext->LoadImageFile(rdPtr->rHo.hoAdRunHeader->rh4.rh4Mv, sprite, fullPath))
-				{
-					ext->SpriteSource[path()].loaded = true;
-				}
-				else
-				{
-					//set error
-				}
+				//fullPath = ext->extSourcePath + ws;
+				fullPath = ext->SpriteSource[path()].path;
+				
+
+
+					if (ext->LoadImageFile(rdPtr->rHo.hoAdRunHeader->rh4.rh4Mv, sprite, fullPath))
+					{
+						ext->SpriteSource[path()].loaded = true;
+					}
+					else
+					{
+						//set error
+					}
+				
+
 			}
 			//if the sprite from the active object is available and exists, clone it and release active object sprite
 			else if (LockImageSurface(ext->SpriteSource[path()].pObj->roHo.hoAdRunHeader->rhIdAppli, ext->SpriteSource[path()].imageNumber, source))
@@ -149,9 +160,9 @@ namespace SpriterEngine
 		POINT inPoints[4];
 		POINT outPoints[4];
 		inPoints[0] = { -center.x, -center.y };
-		inPoints[1] = { -center.x, (1 - spriteInfo->getPivot().y)*h };
-		inPoints[2] = { (1 - spriteInfo->getPivot().x)*w, -center.y };
-		inPoints[3] = { (1 - spriteInfo->getPivot().x)*w, (1 - spriteInfo->getPivot().y)*h };
+		inPoints[1] = { -center.x, static_cast<long>((1 - spriteInfo->getPivot().y)*h )};
+		inPoints[2] = { static_cast<long>((1 - spriteInfo->getPivot().x)*w), -center.y };
+		inPoints[3] = { static_cast<long>((1 - spriteInfo->getPivot().x)*w),static_cast<long>((1 - spriteInfo->getPivot().y)*h )};
 		for (int i = 0; i < 4; i++)
 		{
 			outPoints[i].x = (inPoints[i].x* spriteInfo->getScale().x * std::cos(spriteInfo->getAngle())) + (inPoints[i].y * spriteInfo->getScale().y * std::sin(spriteInfo->getAngle()));

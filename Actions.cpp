@@ -684,12 +684,17 @@ void Extension::LoadSpriteFromExternal()
 					ws.assign(filepath.begin(), filepath.end());
 					fullPath = extSourcePath + ws;
 					hf = rdPtr->rHo.hoAdRunHeader->rh4.rh4Mv->mvOpenHFile(fullPath.c_str(), &dwSize, 0);
-					if (hf != INVALID_HANDLE_VALUE || !SpriteSource[fileChild->Attribute("name")].loaded)
+					if (hf != INVALID_HANDLE_VALUE || SpriteSource[fileChild->Attribute("name")].path.size() == 0)
 					{
 						SpriteSource[fileChild->Attribute("name")].imageNumber = 0;
 						SpriteSource[fileChild->Attribute("name")].pObj = nullptr;
 						SpriteSource[fileChild->Attribute("name")].loaded = false;
 						SpriteSource[fileChild->Attribute("name")].external = true;
+						SpriteSource[fileChild->Attribute("name")].path = fullPath;
+					}
+					if (hf != INVALID_HANDLE_VALUE)
+					{
+						rdPtr->rHo.hoAdRunHeader->rh4.rh4Mv->mvCloseHFile(hf);
 					}
 				}
 			}

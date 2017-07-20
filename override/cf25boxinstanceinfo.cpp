@@ -15,9 +15,9 @@ namespace SpriterEngine
 		float posY = getPivot().y*h;
 		POINT center = { (LONG)posX, (LONG)posY };
 		pts[0] = { -center.x, -center.y };
-		pts[1] = { -center.x, (1 - getPivot().y)*initialSize.y };
-		pts[2] = { (1 - getPivot().x)*initialSize.x, -center.y };
-		pts[3] = { (1 - getPivot().x)*initialSize.x, (1 - getPivot().y)*initialSize.y };
+		pts[1] = { -center.x, static_cast<long>((1 - getPivot().y)*initialSize.y )};
+		pts[2] = { static_cast<long>((1 - getPivot().x)*initialSize.x), -center.y };
+		pts[3] = { static_cast<long>((1 - getPivot().x)*initialSize.x), static_cast<long>((1 - getPivot().y)*initialSize.y) };
 	}
 
 	void Cf25BoxInstanceInfo::render()
@@ -30,9 +30,9 @@ namespace SpriterEngine
 			float posY = getPivot().y*h;
 			POINT center = { (LONG)posX, (LONG)posY };
 			
-			pts[0] = { -center.x, (1 - getPivot().y)*h };
-			pts[1] = { (1 - getPivot().x)*w, (1 - getPivot().y)*h };
-			pts[2] = { (1 - getPivot().x)*w, -center.y };
+			pts[0] = { -center.x, static_cast<long>((1 - getPivot().y)*h )};
+			pts[1] = { static_cast<long>((1 - getPivot().x)*w),static_cast<long>((1 - getPivot().y)*h )};
+			pts[2] = { (static_cast<long>(1 - getPivot().x)*w), -center.y };
 			pts[3] = { -center.x, -center.y };
 			
 			LPSURFACE psw = WinGetSurface((int)rdPtr->rHo.hoAdRunHeader->rhIdEditWin);
